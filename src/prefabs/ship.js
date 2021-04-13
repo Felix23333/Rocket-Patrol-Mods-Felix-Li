@@ -5,21 +5,48 @@ class Ship extends Phaser.GameObjects.Sprite
         super(scene, x, y, texture, frame);
         this.scene.add.existing(this);
         this.speed = 1;
+        this.direction = Phaser.Math.Between(0, 1);
+        if(!this.direction)
+        {
+            this.angle = 180;
+        }
+        
     }
 
     update()
     {
-        this.x -= this.speed * gameSpeed;
-
-        if(this.x < -this.width)
+        if(this.direction)
         {
-            this.x = game.config.width;
+            this.x -= this.speed * gameSpeed;
+
+            if(this.x < -this.width)
+            {
+                this.x = game.config.width;
+            }
         }
+        else
+        {
+            this.x += this.speed * gameSpeed;
+
+            if(this.x > game.config.width + this.width)
+            {
+                this.x = 0;
+            }
+        }
+        
     }
 
     reset()
     {
-        this.x = game.config.width + 50;
+        if(this.direction)
+        {
+            this.x = game.config.width + 50;
+        }
+        else
+        {
+            this.x = 50;
+        }
+        
         this.alpha = 1;
     }
 }

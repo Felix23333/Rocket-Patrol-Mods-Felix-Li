@@ -13,6 +13,15 @@ class Rocket extends Phaser.GameObjects.Sprite
     {
         if(this.isFire)
         {
+            if(leftMove.isDown && this.x > borderUIsize + borderPadding)
+            {   
+                this.x -= this.speed * gameSpeed;
+            }
+            if(rightMove.isDown && this.x < game.config.width - borderUIsize * 1.35)
+            {
+                this.x += this.speed * gameSpeed;
+            }
+            this.scene.fireUI.alpha = 1;
             this.y -= this.speed * 1.5;
             if(this.y < borderUIsize * 3)
             {
@@ -41,5 +50,6 @@ class Rocket extends Phaser.GameObjects.Sprite
     {
         this.y = game.config.height - 45;
         this.isFire = false;
+        this.scene.fireUI.alpha = 0;
     }
 }

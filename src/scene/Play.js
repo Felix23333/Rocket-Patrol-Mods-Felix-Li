@@ -64,6 +64,19 @@ class Play extends Phaser.Scene
             fontSize: '20px',
             color: '#000000',
         }
+
+        let fireUIConfig = {
+            fontFamily: 'Courier',
+            fontSize: '28px',
+            backgroundColor: '#F3B141',
+            color: '#FE1010',
+            align: 'center',
+            padding: {
+                top: 5,
+                bottom: 5,
+            },
+            fixedWidth: 100
+        }
         
         //add background
         this.starfield = this.add.tileSprite(
@@ -85,6 +98,10 @@ class Play extends Phaser.Scene
         //show high score
         this.add.text(150, 63, "1st: ", highScoreConfig);
         this.add.text(200, 53, highScore, scoreConfig);
+
+        //display Fire UI
+        this.fireUI = this.add.text(310, 53, "FIRE!", fireUIConfig);
+        this.fireUI.alpha = 0;
         
         //display score
         this.scoreLeft = this.add.text(borderUIsize + borderPadding, 
