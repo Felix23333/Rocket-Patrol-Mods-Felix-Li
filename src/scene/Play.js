@@ -101,7 +101,7 @@ class Play extends Phaser.Scene
         this.add.text(200, 53, highScore, scoreConfig);
 
         //display Fire UI
-        this.fireUI = this.add.text(310, 53, "FIRE!", fireUIConfig);
+        this.fireUI = this.add.text(320, 53, "FIRE!", fireUIConfig);
         this.fireUI.alpha = 0;
         
         //display score
@@ -109,6 +109,7 @@ class Play extends Phaser.Scene
                         borderUIsize + borderPadding * 2, this.score, scoreConfig);
         
         //display time
+        this.add.text(435, 63, "Time: ", highScoreConfig);
         this.timeLeft = this.add.text(game.config.width - borderPadding - borderUIsize - 100,
             borderUIsize + borderPadding * 2, this.time, timeConfig);
 
