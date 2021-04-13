@@ -6,7 +6,7 @@ class Play extends Phaser.Scene
     }
     preload()
     {
-        this.load.image("starfield", "assets/starfield.png");
+        this.load.image("starfield", "assets/starbackground.jpg");
         this.load.image("rocket", "assets/rocket.png");
         this.load.image("ship", "assets/spaceship.png")
         this.load.spritesheet("explosion", "assets/explosion.png",
@@ -25,6 +25,7 @@ class Play extends Phaser.Scene
 
     create()
     {
+        this.sound.play("background_music");
         this.gameover = false;
         //init score
         this.score = 0;
