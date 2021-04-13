@@ -58,6 +58,12 @@ class Play extends Phaser.Scene
             },
             fixedWidth: 100
         }
+
+        let highScoreConfig = {
+            fontFamily: 'Courier',
+            fontSize: '20px',
+            color: '#000000',
+        }
         
         //add background
         this.starfield = this.add.tileSprite(
@@ -75,6 +81,10 @@ class Play extends Phaser.Scene
         this.add.rectangle(0, borderPadding + borderUIsize, 
                            game.config.width, borderUIsize * 2, 
                            0x00FF00).setOrigin(0,0);
+        
+        //show high score
+        this.add.text(150, 63, "1st: ", highScoreConfig);
+        this.add.text(200, 53, highScore, scoreConfig);
         
         //display score
         this.scoreLeft = this.add.text(borderUIsize + borderPadding, 
@@ -115,6 +125,10 @@ class Play extends Phaser.Scene
                     this.add.text(game.config.width/2, game.config.height/2 + 128, 'Press (M) to Main menu', scoreConfig).setOrigin(0.5);
                     this.gameover = true;
         }, null, this);
+
+        this.time.delayedCall(30000, () =>{
+            gameSpeed = 1.7;
+        }, null, this);
         
     }
 
@@ -123,6 +137,14 @@ class Play extends Phaser.Scene
     update() 
     {
         this.timeLeft.text = this.timer;
+        if(this.gameover)
+        {
+            gameSpeed = 1;
+            if(this.score > highScore)
+            {
+                highScore = this.score;
+            }
+        }
         if(this.gameover && restartKey.isDown)
         {
             this.scene.restart();

@@ -11,3 +11,5 @@ let borderUIsize = game.config.height / 15;
 let borderPadding = borderUIsize / 3;
 
 let leftMove, rightMove, fireKey, restartKey, menuKey;
+let highScore = 0;
+let gameSpeed = 1;
