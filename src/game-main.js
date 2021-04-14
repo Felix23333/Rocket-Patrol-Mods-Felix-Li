@@ -18,10 +18,11 @@ let highScore = 0;
 let gameSpeed = 1;
 
 //Extra Mods BreakDown
-// Track high score (10)
-// Fire UI (10)
-// Own Background Music (10)
-// Random ship direction (10)
-// New scolling background picture (10)
-// Allow player to control after shoot (10)
-// Display the time remaining (15)
+// Track high score (5)
+// Fire UI (5)
+// Own Background Music (5)
+// Random ship direction (5)
+// New scolling background picture (5)
+// Allow player to control after shoot (5)
+// Display the time remaining (10)
+// Implement add time when successful hit (20)

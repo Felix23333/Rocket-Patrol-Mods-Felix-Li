@@ -15,6 +15,7 @@ class Play extends Phaser.Scene
 
     countTime()
     {
+        
         this.timer -= 1;
         if(this.timer < 0)
         {
@@ -27,6 +28,7 @@ class Play extends Phaser.Scene
     {
         this.sound.play("background_music");
         this.gameover = false;
+        this.showGameoverUI = false;
         //init score
         this.score = 0;
 
@@ -130,7 +132,7 @@ class Play extends Phaser.Scene
         this.anims.create({
             key: "explode", 
             frames: this.anims.generateFrameNumbers('explosion', { start: 0, end: 9, first: 0}),
-            frameRate : 30
+            frameRate : 30,
         });
 
         // 60-second play clock
@@ -138,12 +140,20 @@ class Play extends Phaser.Scene
         //count remain time;
         this.time.addEvent({ delay: 1000, callback: this.countTime, 
                             callbackScope: this, loop: true });
-        this.clock = this.time.delayedCall(60000, () => {
-                    this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5);
-                    this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart', scoreConfig).setOrigin(0.5);
-                    this.add.text(game.config.width/2, game.config.height/2 + 128, 'Press (M) to Main menu', scoreConfig).setOrigin(0.5);
-                    this.gameover = true;
-        }, null, this);
+
+        // this.clock = this.time.delayedCall(60000, () => {
+        //             this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5);
+        //             this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart', scoreConfig).setOrigin(0.5);
+        //             this.add.text(game.config.width/2, game.config.height/2 + 128, 'Press (M) to Main menu', scoreConfig).setOrigin(0.5);
+        //             this.gameover = true;
+        // }, null, this);
+
+        this.goUI1 = this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5);
+        this.goUI2 = this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart', scoreConfig).setOrigin(0.5);
+        this.goUI3 = this.add.text(game.config.width/2, game.config.height/2 + 128, 'Press (M) to Main menu', scoreConfig).setOrigin(0.5);
+        this.goUI1.alpha = 0;
+        this.goUI2.alpha = 0;
+        this.goUI3.alpha = 0;
 
         this.time.delayedCall(30000, () =>{
             gameSpeed = 1.7;
@@ -163,6 +173,13 @@ class Play extends Phaser.Scene
             {
                 highScore = this.score;
             }
+        }
+        if(this.gameover && !this.showGameoverUI)
+        {
+            this.showGameoverUI = true;
+            this.goUI1.alpha = 1;
+            this.goUI2.alpha = 1;
+            this.goUI3.alpha = 1;
         }
         if(this.gameover && restartKey.isDown)
         {
@@ -203,6 +220,7 @@ class Play extends Phaser.Scene
     shipExplosion(ship)
     {
         ship.alpha = 0;
+        this.timer += 1;
         let boom = this.add.sprite(ship.x - ship.width, 
                     ship.y - ship.height * 0.5, 'explosion').setOrigin(0, 0);
         boom.anims.play("explode");
