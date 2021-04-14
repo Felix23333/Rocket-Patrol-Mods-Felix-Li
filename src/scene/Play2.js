@@ -1,8 +1,8 @@
-class Play extends Phaser.Scene
+class Play2 extends Phaser.Scene
 {
     constructor()
     {
-        super("playScene");
+        super("play2Scene");
     }
     preload()
     {
@@ -29,8 +29,6 @@ class Play extends Phaser.Scene
         music.play();
         this.gameover = false;
         this.showGameoverUI = false;
-        //init score
-        this.score = 0;
 
         //init timer;
         this.timer = 60;
@@ -46,7 +44,20 @@ class Play extends Phaser.Scene
                 top: 5,
                 bottom: 5,
             },
-            fixedWidth: 100
+            fixedWidth: 75
+        }
+
+        let scoreConfig2 = {
+            fontFamily: 'Courier',
+            fontSize: '28px',
+            backgroundColor: '#DEFACE',
+            color: '#843605',
+            align: 'right',
+            padding: {
+                top: 5,
+                bottom: 5,
+            },
+            fixedWidth: 75
         }
 
         let timeConfig = {
@@ -99,19 +110,20 @@ class Play extends Phaser.Scene
                            0x00FF00).setOrigin(0,0);
         
         //show high score
-        this.add.text(150, 63, "1st: ", highScoreConfig);
-        this.add.text(200, 53, highScore, scoreConfig);
+        this.add.text(50, 63, "P1:", highScoreConfig);
+        this.add.text(175, 63, "P2:", highScoreConfig);
+        this.scoreP2 = this.add.text(210, 53, p2Score, scoreConfig2);
 
         //display Fire UI
         this.fireUI = this.add.text(320, 53, "FIRE!", fireUIConfig);
         this.fireUI.alpha = 0;
         
         //display score
-        this.scoreLeft = this.add.text(borderUIsize + borderPadding, 
-                        borderUIsize + borderPadding * 2, this.score, scoreConfig);
+        this.scoreLeft = this.add.text(borderUIsize + borderPadding + 45, 
+                        borderUIsize + borderPadding * 2, p1Score, scoreConfig);
         
         //display time
-        this.add.text(435, 63, "Time: ", highScoreConfig);
+        this.add.text(435, 63, "Time:", highScoreConfig);
         this.timeLeft = this.add.text(game.config.width - borderPadding - borderUIsize - 100,
             borderUIsize + borderPadding * 2, this.time, timeConfig);
 
@@ -147,13 +159,21 @@ class Play extends Phaser.Scene
         //             this.add.text(game.config.width/2, game.config.height/2 + 128, 'Press (M) to Main menu', scoreConfig).setOrigin(0.5);
         //             this.gameover = true;
         // }, null, this);
-
+        
+        //2player UI
         this.goUI1 = this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5);
-        this.goUI2 = this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart', scoreConfig).setOrigin(0.5);
+        this.goUI2 = this.add.text(game.config.width/2, game.config.height/2 + 64, "Press (R) to start P2's game", scoreConfig).setOrigin(0.5);
         this.goUI3 = this.add.text(game.config.width/2, game.config.height/2 + 128, 'Press (M) to Main menu', scoreConfig).setOrigin(0.5);
+
+        this.p1Win = this.add.text(game.config.width/2, game.config.height/2 + 64, "P1 is the winner!", scoreConfig).setOrigin(0.5);
+        this.p2Win = this.add.text(game.config.width/2, game.config.height/2 + 64, "P2 is the winner!", scoreConfig).setOrigin(0.5);
+        this.tie = this.add.text(game.config.width/2, game.config.height/2 + 64, "Wow! It is a tie!", scoreConfig).setOrigin(0.5);
         this.goUI1.alpha = 0;
         this.goUI2.alpha = 0;
         this.goUI3.alpha = 0;
+        this.p1Win.alpha = 0;
+        this.p2Win.alpha = 0;
+        this.tie.alpha = 0;
 
         this.time.delayedCall(30000, () =>{
             gameSpeed = 1.7;
@@ -170,20 +190,38 @@ class Play extends Phaser.Scene
         {
             this.sound.get("background_music").stop();
             gameSpeed = 1;
-            if(this.score > highScore)
-            {
-                highScore = this.score;
-            }
         }
         if(this.gameover && !this.showGameoverUI)
         {
             this.showGameoverUI = true;
-            this.goUI1.alpha = 1;
-            this.goUI2.alpha = 1;
-            this.goUI3.alpha = 1;
+            if(!isP2)
+            { 
+                this.goUI1.alpha = 1;
+                this.goUI2.alpha = 1;
+                this.goUI3.alpha = 1;
+            }
+            else
+            {
+                this.goUI1.alpha = 1;
+                this.goUI3.alpha = 1;
+                if(p1Score > p2Score)
+                {
+                    this.p1Win.alpha = 1;
+                }
+                else if(p2Score > p1Score)
+                {
+                    this.p2Win.alpha = 1;
+                }
+                else
+                {
+                    this.tie.alpha = 1;
+                }
+            }
+            
         }
-        if(this.gameover && restartKey.isDown)
+        if(this.gameover && restartKey.isDown && !isP2)
         {
+            isP2 = true;
             this.scene.restart();
         }
         if(this.gameover && menuKey.isDown)
@@ -212,8 +250,16 @@ class Play extends Phaser.Scene
             && rocket.y <= ship.y + ship.height)
         {
             this.shipExplosion(ship);
-            this.score += 1;
-            this.scoreLeft.text = this.score;
+            if(!isP2)
+            {
+                p1Score += 1;
+                this.scoreLeft.text = p1Score;
+            }
+            else
+            {
+                p2Score += 1;
+                this.scoreP2.text = p2Score;
+            }
             rocket.reset();
         }
     }

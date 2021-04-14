@@ -19,6 +19,19 @@ class Menu extends Phaser.Scene
         this.scene.start("playScene");
     }
 
+    TwoPlayer()
+    {
+        p1Score = 0;
+        p2Score = 0;
+        isP2 = false;
+        this.scene.start("play2Scene");
+    }
+
+    CoopTwoPlayer()
+    {
+
+    }
+
     create()
     {
         // let menuConfig = {
@@ -74,6 +87,12 @@ class Menu extends Phaser.Scene
             },
             fixedWidth: 175
         }
+        //set music
+        if(!addMusic)
+        {
+            addMusic = true;
+            music = this.sound.add("background_music");
+        }
         //add title
         this.add.tileSprite(
             20, 20, 600, 75, "title"
@@ -103,6 +122,9 @@ class Menu extends Phaser.Scene
         ).setOrigin(0.5);
         //Handle Scene Transition
         this.input.keyboard.on('keydown-ONE', this.OnePlayer, this);
+        this.input.keyboard.on('keydown-TWO', this.TwoPlayer, this);
+        this.input.keyboard.on('keydown-THREE', this.CoopTwoPlayer, this);
+
     }
 
 }
