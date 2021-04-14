@@ -127,7 +127,7 @@ class Play extends Phaser.Scene
         fireKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.K);
         restartKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
         menuKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.M);
-
+        mouseModeKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.N);
         //animation
         this.anims.create({
             key: "explode", 

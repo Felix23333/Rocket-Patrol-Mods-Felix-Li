@@ -13,11 +13,12 @@ let game = new Phaser.Game(config);
 let borderUIsize = game.config.height / 15;
 let borderPadding = borderUIsize / 3;
 
-let leftMove, rightMove, fireKey, restartKey, menuKey;
+let leftMove, rightMove, fireKey, restartKey, menuKey, mouseModeKey;
 let highScore = 0;
 let gameSpeed = 1;
+let mouseX;
 
-//Extra Mods BreakDown
+// Extra Mods BreakDown
 // Track high score (5)
 // Fire UI (5)
 // Own Background Music (5)
@@ -26,3 +27,4 @@ let gameSpeed = 1;
 // Allow player to control after shoot (5)
 // Display the time remaining (10)
 // Implement add time when successful hit (20)
+// Implement mouse control mode, press "N" to switch (20)

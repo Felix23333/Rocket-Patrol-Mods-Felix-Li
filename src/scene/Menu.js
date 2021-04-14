@@ -54,4 +54,5 @@ class Menu extends Phaser.Scene
         //Handle Scene Transition
         this.input.keyboard.on('keydown-ENTER', this.BeginPlay, this);
     }
+
 }
