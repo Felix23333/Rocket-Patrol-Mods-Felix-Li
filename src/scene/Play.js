@@ -6,6 +6,7 @@ class Play extends Phaser.Scene
     }
     preload()
     {
+        this.load.image("rareship", "assets/rareship.png");
         this.load.image("starfield", "assets/starbackground.jpg");
         this.load.image("rocket", "assets/rocket.png");
         this.load.image("ship", "assets/spaceship.png")
@@ -90,9 +91,11 @@ class Play extends Phaser.Scene
                                 "rocket");
         
         //create Ship
-        this.ship1 = new Ship(this, 100, 200, "ship");
-        this.ship2 = new Ship(this, 200, 250, "ship");
-        this.ship3 = new Ship(this, 400, 300, "ship");
+        this.rship = new RareShip(this, Phaser.Math.Between(0, 600), 150, "rareship");
+        this.ship1 = new Ship(this, Phaser.Math.Between(0, 600), 200, "ship");
+        this.ship2 = new Ship(this, Phaser.Math.Between(0, 600), 250, "ship");
+        this.ship3 = new Ship(this, Phaser.Math.Between(0, 600), 300, "ship");
+        this.rship.scale = 0.7;
         //green UI
         this.add.rectangle(0, borderPadding + borderUIsize, 
                            game.config.width, borderUIsize * 2, 
@@ -196,12 +199,14 @@ class Play extends Phaser.Scene
             this.ship1.update();
             this.ship2.update();
             this.ship3.update();
+            this.rship.update();
             this.starfield.tilePositionX -= 2;
         }
         
         this.checkcollision(this.rocket, this.ship1);
         this.checkcollision(this.rocket, this.ship2);
         this.checkcollision(this.rocket, this.ship3);
+        this.checkcollision(this.rocket, this.rship);
     }
 
     checkcollision(rocket, ship)
@@ -213,6 +218,10 @@ class Play extends Phaser.Scene
         {
             this.shipExplosion(ship);
             this.score += 1;
+            if(ship == this.rship)
+            {
+                this.score += 1;
+            }
             this.scoreLeft.text = this.score;
             rocket.reset();
         }

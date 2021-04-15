@@ -34,4 +34,5 @@ let addMusic = false;
 // Create a new title screen (10)
 // Implement add time when successful hit (20)
 // Implement mouse control mode, press "N" to switch (20)
+// Create a new spaceship type that's smaller, moves faster, and is worth more points (20)
 // Implement an alternating two-player mode (20)
