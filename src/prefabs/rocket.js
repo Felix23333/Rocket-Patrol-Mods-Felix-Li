@@ -9,84 +9,128 @@ class Rocket extends Phaser.GameObjects.Sprite
         this.sfxRocket = scene.sound.add("sfx_shoot"); // add rocket sfx
         this.mouse = false;
         this.sfxPlayed = false;
+        this.isP2 = false;
         
     }
 
     update()
     {
-        //switch mode
-        if(Phaser.Input.Keyboard.JustDown(mouseModeKey))
+        if(this.isP2)
         {
-            this.mouse = !this.mouse;
-        }
-        if(this.mouse)
-        {
-            if(game.input.mousePointer.leftButtonDown())
+            //This is for p2 control
+            if(this.isFire)
             {
-                this.isFire = true;
-                if(!this.sfxPlayed)
-                {
-                    this.sfxPlayed = true;
-                    this.sfxRocket.play();
+                if(p2LeftKey.isDown && this.x > borderUIsize + borderPadding)
+                {   
+                    this.x -= this.speed * gameSpeed;
                 }
-            }
-            if(game.input.mousePointer.x < borderUIsize + borderPadding)
-            {
-                this.x = borderUIsize + borderPadding;
-            }
-            else if(game.input.mousePointer.x > game.config.width - borderUIsize * 1.35)
-            {
-                this.x = game.config.width - borderUIsize * 1.35;
+                if(p2RightKey.isDown && this.x < game.config.width - borderUIsize * 1.35)
+                {
+                    this.x += this.speed * gameSpeed;
+                }
+                this.scene.fireUI.alpha = 1;
+                this.y -= this.speed * 1.5;
+                if(this.y < borderUIsize * 3)
+                {
+                    this.reset();
+                }
             }
             else
             {
-                this.x = game.input.mousePointer.x;
-            }
-
-        }
-        
-        if(this.isFire)
-        {
-            if(leftMove.isDown && this.x > borderUIsize + borderPadding && !this.mouse)
-            {   
-                this.x -= this.speed * gameSpeed;
-            }
-            if(rightMove.isDown && this.x < game.config.width - borderUIsize * 1.35 && !this.mouse)
-            {
-                this.x += this.speed * gameSpeed;
-            }
-            if(game.input.mousePointer.x < borderUIsize + borderPadding && this.mouse)
-            {
-                this.x = borderUIsize + borderPadding;
-            }
-            else if(game.input.mousePointer.x > game.config.width - borderUIsize * 1.35 && this.mouse)
-            {
-                this.x = game.config.width - borderUIsize * 1.35;
-            }
-            this.scene.fireUI.alpha = 1;
-            this.y -= this.speed * 1.5;
-            if(this.y < borderUIsize * 3)
-            {
-                this.reset();
+                if(p2LeftKey.isDown && this.x > borderUIsize + borderPadding)
+                {   
+                    this.x -= this.speed * gameSpeed;
+                }
+                if(p2RightKey.isDown && this.x < game.config.width - borderUIsize * 11.35)
+                {
+                    this.x += this.speed * gameSpeed;
+                }
+                if(Phaser.Input.Keyboard.JustDown(p2ShootKey))
+                {
+                    this.isFire = true;
+                    this.sfxRocket.play();
+                }
+                
             }
         }
         else
         {
-            if(leftMove.isDown && this.x > borderUIsize + borderPadding && !this.mouse)
-            {   
-                this.x -= this.speed * gameSpeed;
-            }
-            if(rightMove.isDown && this.x < game.config.width - borderUIsize * 1.35 && !this.mouse)
+            //This is for p1 control
+            //switch mode
+            if(Phaser.Input.Keyboard.JustDown(mouseModeKey))
             {
-                this.x += this.speed * gameSpeed;
+                this.mouse = !this.mouse;
             }
-            if(Phaser.Input.Keyboard.JustDown(fireKey) && !this.mouse)
+            if(this.mouse)
             {
-                this.isFire = true;
-                this.sfxRocket.play();
+                if(game.input.mousePointer.leftButtonDown())
+                {
+                    this.isFire = true;
+                    if(!this.sfxPlayed)
+                    {
+                        this.sfxPlayed = true;
+                        this.sfxRocket.play();
+                    }
+                }
+                if(game.input.mousePointer.x < borderUIsize + borderPadding)
+                {
+                    this.x = borderUIsize + borderPadding;
+                }
+                else if(game.input.mousePointer.x > game.config.width - borderUIsize * 1.35)
+                {
+                    this.x = game.config.width - borderUIsize * 1.35;
+                }
+                else
+                {
+                    this.x = game.input.mousePointer.x;
+                }
+
             }
             
+            if(this.isFire)
+            {
+                if(leftMove.isDown && this.x > borderUIsize + borderPadding && !this.mouse)
+                {   
+                    this.x -= this.speed * gameSpeed;
+                }
+                if(rightMove.isDown && this.x < game.config.width - borderUIsize * 1.35 && !this.mouse)
+                {
+                    this.x += this.speed * gameSpeed;
+                }
+                if(game.input.mousePointer.x < borderUIsize + borderPadding && this.mouse)
+                {
+                    this.x = borderUIsize + borderPadding;
+                }
+                else if(game.input.mousePointer.x > game.config.width - borderUIsize * 1.35 && this.mouse)
+                {
+                    this.x = game.config.width - borderUIsize * 1.35;
+                }
+                this.scene.fireUI.alpha = 1;
+                this.y -= this.speed * 1.5;
+                if(this.y < borderUIsize * 3)
+                {
+                    this.reset();
+                }
+            }
+            else
+            {
+                if(leftMove.isDown && this.x > borderUIsize + borderPadding && !this.mouse)
+                {   
+                    this.x -= this.speed * gameSpeed;
+                }
+                if(rightMove.isDown && this.x < game.config.width - borderUIsize * 1.35 && !this.mouse)
+                {
+                    this.x += this.speed * gameSpeed;
+                }
+                if(Phaser.Input.Keyboard.JustDown(fireKey) && !this.mouse)
+                {
+                    this.isFire = true;
+                    this.sfxRocket.play();
+                }
+                
+            }
         }
+        
         
     }
     reset()

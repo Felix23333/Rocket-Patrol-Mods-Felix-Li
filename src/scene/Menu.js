@@ -29,7 +29,9 @@ class Menu extends Phaser.Scene
 
     CoopTwoPlayer()
     {
-
+        p1Score = 0;
+        p2Score = 0;
+        this.scene.start("Coplay2Scene");
     }
 
     create()
