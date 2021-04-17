@@ -94,6 +94,7 @@ class Menu extends Phaser.Scene
         {
             addMusic = true;
             music = this.sound.add("background_music");
+            music.loop = true;
         }
         //add title
         this.add.tileSprite(

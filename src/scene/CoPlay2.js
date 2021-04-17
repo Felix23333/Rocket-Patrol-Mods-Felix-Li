@@ -283,7 +283,10 @@ class CoPlay2 extends Phaser.Scene
     shipExplosion(ship)
     {
         ship.alpha = 0;
-        this.timer += 1;
+        if(ship == this.rship)
+        {
+            this.timer += 2;
+        }
         let boom = this.add.sprite(ship.x - ship.width, 
                     ship.y - ship.height * 0.5, 'explosion').setOrigin(0, 0);
         boom.anims.play("explode");
