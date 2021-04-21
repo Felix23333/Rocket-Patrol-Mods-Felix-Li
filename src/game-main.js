@@ -1,5 +1,5 @@
 //Name: Felix Li  Project Title: Rocket-Patrol-Mods
-//Date:              The total time spend:
+//Date: 4/20/2021 The total time spend: 15 hours
 
 let config = {
     type: Phaser.CANVAS,
